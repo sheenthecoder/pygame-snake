@@ -1,26 +1,3 @@
-'''
-Snake game.
-Authors:
-<insert the names of your teammates here>
-'''
-
-import pygame
-import random
-import sys
-
-# The game grid contains this many cells in the x direction. A piece of food or a segment of the snake takes up one cell.
-GRID_WIDTH = 30
-# The game grid contains this many cells in the y direction. A piece of food or a segment of the snake takes up one cell.
-GRID_HEIGHT = 30
-# The height and width of each square cell in pixels.
-PIXELS_IN_CELL = 20
-# The width of the game grid in pixels.
-GRID_WIDTH_PIXELS = PIXELS_IN_CELL * GRID_WIDTH
-# The height of the game grid in pixels.
-GRID_HEIGHT_PIXELS = PIXELS_IN_CELL * GRID_HEIGHT
-# The initial length of the snake. Before eating any food, the snake contains this many segments.
-INITIAL_SNAKE_LENGTH = 10
-
 # Each of these directions contains a 2-tuple representing delta-x and delta-y for moving in that direction.
 DIRECTION_LEFT = (-1, 0)
 DIRECTION_RIGHT = (1, 0)
@@ -55,7 +32,7 @@ def create_food_position():
     The first element is the x position. Must be an int between 0 and GRID_WIDTH - 1, inclusively.
     The second element is the y position. Must be an int between 0 and GRID_HEIGHT - 1, inclusively.
     """
-    return
+    return (random.randint(0, GRID_WIDTH -1), random.randint(0, GRID_HEIGHT-1))
 
 def snake_ate_food(snake, food):
     """Returns whether food was eaten by the snake.
