@@ -1,7 +1,7 @@
 '''
 Snake game.
 Authors:
-<insert the names of your teammates here>
+<Sheena and Dammy>
 '''
 
 import pygame
@@ -48,6 +48,10 @@ def get_direction(previous_direction, event_key):
         return DIRECTION_LEFT
     elif event_key == pygame.K_UP:
         return DIRECTION_UP
+    elif event_key == pygame.K_RIGHT:
+        return DIRECTION_RIGHT
+    elif event_key == pygame.K_DOWN:
+         return DIRECTION_DOWN
     return previous_direction
 
 def create_food_position():
@@ -55,7 +59,7 @@ def create_food_position():
     The first element is the x position. Must be an int between 0 and GRID_WIDTH - 1, inclusively.
     The second element is the y position. Must be an int between 0 and GRID_HEIGHT - 1, inclusively.
     """
-    return
+    return (random.randint(0, GRID_WIDTH -1), random.randint(0, GRID_HEIGHT-1))
 
 def snake_ate_food(snake, food):
     """Returns whether food was eaten by the snake.
@@ -63,6 +67,10 @@ def snake_ate_food(snake, food):
     food - 2-tuple representing the position in the grid of the food
     This function should return True if the head of the snake is in the same position as food.
     """
+    for indicator in range(len(snake)):
+        if snake[indicator] == food:
+            return True
+        
     return False
 
 def snake_ran_out_of_bounds(snake):
@@ -70,6 +78,10 @@ def snake_ran_out_of_bounds(snake):
     snake - list of 2-tuples representing the positions of each snake segment
     Note that the grid is GRID_WIDTH cells wide and GRID_HEIGHT cells high.
     """
+    for side in range (len(snake)):
+        for sides in range(len(snake[side])):
+            if snake[side][sides] == 30:
+                return True
     return False
 
 def snake_intersected_body(snake):
@@ -78,6 +90,9 @@ def snake_intersected_body(snake):
     The snake ran into itself if the position of the head is the same as the position
     of any of its body segments.
     """
+    for snake_ran in range(1,len(snake)):
+        if snake[snake_ran] == snake[0]:
+            return True
     return False
 
 def get_score(snake):
@@ -86,14 +101,15 @@ def get_score(snake):
     The user earns 10 points for each of the segments in the snake.
     For example, if the snake has 25 segments, the score is 250.
     """
-    return 0
+    score = len(snake) * 10
+    return score
 
 def get_game_over_text(score):
     """Returns the text to draw on the screen after the game is over.
     This text should contain 'Game Over' as well as the score.
     score - integer representing the current score of the game.
     """
-    return 'Game Over.'
+    return 'Game Over.' + ' score: ' + str(score)
 
 def get_snake_speed(snake):
     """Return the number of cells the snake should travel in one second.
@@ -101,6 +117,9 @@ def get_snake_speed(snake):
     The speed at the beginning of the game should be 5. Once the snake has eaten 10 pieces of food,
     the speed of the game should increase (by how much is up to you).
     """
+    if len(snake) > 15:
+        return len(snake) -6
+    
     return 5
 
 def move_snake(snake, direction, food):
@@ -193,6 +212,8 @@ def process_events(direction, game_over):
     for event in pygame.event.get():
         # Quit the program when the user presses the x in the corner of the window.
         if event.type == pygame.QUIT:
+            pygame.display.quit()
+            pygame.quit()
             sys.exit()
         # Process events when the user presses a key on the keyboard.
         # https://www.pygame.org/docs/ref/key.html
